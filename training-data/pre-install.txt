@@ -1,0 +1,21 @@
+Pre-Installation
+Before you start with the setup
+Assign a static IP address to the server(s) which will be running the AIR Console and DB.
+80 (HTTP) inbound
+Allow inbound access for the following ports (TCP/UDP) for endpoint agents to connect:
+443 (HTTPS) inbound
+4222 (NATS.io) inbound
+(For 2-Tier Deployment) Allow inbound access for the following port (TCP/UDP) from AIR Console server to access MongoDB Server:
+27017 (MongoDB) inbound
+Allow internet access to the following domains (for 2-Tier deployment, this is only required on the AIR Console server):
+https://binalyze.com
+https://license.binalyze.com
+https://api.binalyze.com
+https://cdn.binalyze.com
+https://one.binalyze.com
+https://cr.binalyze.com
+(optional) Create an SSL certificate for the Static IP Address or FQDN you have provided.
+(optional) Allow inbound access for the following port (TCP/UDP) for alternative secure access to web UI on the AIR Console server:
+8443 (HTTPS) inbound
+(optional) Create a password-protected network share on the server.
+(optional) Create an Active Directory user for Binalyze AIR to be able to enumerate LDAP computers on your network. This account should only have the right to enumerate computers and should NOT be a privileged account such as a Domain Admin.

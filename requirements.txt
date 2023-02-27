@@ -1,0 +1,7 @@
+openai==0.26.5
+openai[datalib]
+python-dotenv==1.0.0
+matplotlib==3.7.0
+plotly==5.13.1
+scipy==1.10.1
+sklearn

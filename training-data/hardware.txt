@@ -1,0 +1,24 @@
+Hardware Requirements
+What are the minimum requirements for running Binalyze AIR?
+Quick Tip
+Learn more about the  for Binalyze AIR.
+Minimum Requirements
+Below are the minimum hardware requirements for AIR components:
+Single Tier Deployment - Server (Console & DB)
+​
+Minimum
+    RAM
+    8 GB
+    CPU
+    4 Cores
+    DISK
+    256 GB
+
+
+Suggested
+    RAM
+    16 GB
+    CPU
+    ​8 Cores
+    DISK
+    512 GB

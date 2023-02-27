@@ -1,0 +1,102 @@
+Installation
+This article contains instructions on how to deploy Binalyze AIR using Docker and also covers the models of deployment.
+Supported Distributions 
+CentOS: 7, 8 (x64)
+Ubuntu: 18.04 (LTS), 20.04 (LTS) (x64)
+Prerequisites
+Docker (version 19.03.6 or higher)
+You can download it from: ​
+Docker Compose (version 1.28.0 or higher to support Compose file version 3.4)
+You can download it from: ​
+Deployment Models
+You can deploy AIR in one of two models:
+​
+All platform components, such as App, Web, NATS, DB, and Redis, are installed and run on the same machine. 
+​
+All components except the Database Layer are installed and run on a single instance, while Database has its own dedicated instance. 
+Which deployment model to use?
+Single Tier Model is the quickest way of deploying AIR that can be used for PoCs and testing purposes, while the 2-Tier Model is meant for Enterprise usage.  
+2-Tier Model comes with a dedicated Console Server that can serve more endpoints and moves the Database into an isolated server that increases the database performance. 
+Installation
+Before you start
+Make sure you have updated package repositories of the Operating System you are using. Please find below the commands for CentOS and Ubuntu:
+For CentOS:
+yum update
+For Ubuntu:
+apt-get update
+Start and enable docker service by executing the following command:
+systemctl start docker && systemctl enable docker
+Single-Tier Deployment 
+Suitable for PoCs, Demos, and non-mission critical deployments.
+This deployment model installs all components into a single machine.
+Method 1: Quick Deployment (preferred method)
+Run the one-liner below and wait for it to complete
+curl -fsSL https://cdn.binalyze.com/air-deploy/console.sh | sudo -E bash
+Proceed with the ​
+Method 2: Manual Deployment (use only when required)
+Create a folder for the Binalyze AIR under /opt directory and cd into it
+
+mkdir /opt/binalyze-air && cd /opt/binalyze-air
+Download the docker-compose.yml file and save it
+
+curl -fsSL "https://cdn.binalyze.com/air-deploy/docker-compose.yml" -o docker-compose.yml
+Create the directory for the database volume with defined access:
+
+install -d -o 1001 -g 1001 ./volumes/mongodb/bitnami/mongodb
+Change the default password for NATS real-time messaging platform
+
+sed -i s/air_nats_password/$(tr -dc 'a-zA-Z0-9' </dev/urandom | fold -w 32 | head -n 1)/g docker-compose.yml
+Run the following command to start Binalyze AIR installation in docker:
+
+docker-compose -p binalyze-air up -d
+Wait for the installation to complete. It may take several minutes
+Proceed with the ​
+2-Tier Deployment
+Suitable for Enterprise Deployments.
+This deployment model requires you to deploy the Database Component first (Step 1) and then start the deployment of the Console Server (Step 2) by pointing to the database server's address.
+Method 1: Quick Deployment (preferred method)
+Run the one-liner below and wait for it to complete (this script will deploy the database component - Step 1)
+curl -fsSL https://cdn.binalyze.com/air-deploy/db.sh | sudo -E bash
+Once the database is deployed, the above script will output the commands that need to be executed on the Console Server machine (Step 2)
+SSH into the Console Server machine
+Run the commands provided by the above script and wait for it to complete
+Proceed with the​
+Method 2: Manual Deployment (use only when required)
+You should execute the commands below on the Database Server!
+SSH into Database Server
+Create a folder for the Binalyze AIR DB under /opt directory and cd into it
+mkdir /opt/binalyze-air-db && cd /opt/binalyze-air-db
+Download the docker-compose.yml file and save it
+curl -fsSL "https://cdn.binalyze.com/air-deploy/docker-compose-db.yml" -o docker-compose.yml
+Create the directory for the database volume with defined access:
+install -d -o 1001 -g 1001 ./volumes/mongodb/bitnami/mongodb
+Change the default password for MongoDB
+sed -i s/mongo_root_password/$(tr -dc 'a-zA-Z0-9' </dev/urandom | fold -w 32 | head -n 1)/g docker-compose.yml
+Run the following command to start the Binalyze AIR Database component in Docker:
+docker-compose -p binalyze-air-db up -d
+Wait for the installation to complete. It may take several minutes.
+Proceed to the installation of Console Server
+You should execute the commands below on Console Server!
+SSH into Console Server
+Create a folder for the Binalyze AIR under /opt directory and cd into it
+mkdir /opt/binalyze-air && cd /opt/binalyze-air
+Download the docker-compose.yml file and save it
+curl -fsSL "https://cdn.binalyze.com/air-deploy/docker-compose-without-db.yml" -o docker-compose.yml
+Change the default password for NATS real-time messaging platform
+sed -i s/air_nats_password/$(tr -dc 'a-zA-Z0-9' </dev/urandom | fold -w 32 | head -n 1)/g docker-compose.yml
+Create a folder for saving the configuration
+mkdir -p ./volumes/app/binalyze-air/config
+Set the database URI for connecting Console Server to DB
+IMPORTANT: You should replace DB Root Password and DB Server IP in the command below.
+echo "AIR_DB_URI=mongodb://root:<DB_ROOT_PASSWORD>@<DB_SERVER_IP>/airdb?authSource=admin" >> ./volumes/app/binalyze-air/config/.env
+Run the following command to start Binalyze AIR installation in docker
+docker-compose -p binalyze-air up -d
+Wait for the installation to complete. It may take several minutes
+Proceed with the ​
+Finalizing Setup
+Regardless of the deployment model you chose, you will be asked several configurations at the end of the deployment, such as an organization name, the credentials of the first user account, etc.
+Once you have completed the above steps successfully, you should: 
+Visit http://IP-ADDRESS for accessing the Console (IP address here is the public IP address of the machine you have deployed Binalyze AIR)
+Accept EULA and provide the configuration you are asked for in each step
+Complete the setup and login using the credentials you have provided
+Enjoy Binalyze AIR! 

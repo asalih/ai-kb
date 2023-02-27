@@ -1,0 +1,49 @@
+Migrating to AIR v1.8+
+This article contains instructions on how to migrate AIR from v1.7.61 to v1.8+
+IMPORTANT NOTE
+This document ONLY applies to the latest version of Binalyze AIR (v1.7.61) that runs on  Windows. 
+If you are using an older version of AIR, you must first update it to v1.7.61 by downloading the latest  before starting the migration process described in this document.
+Migration Overview
+Migrating Windows-based AIR to Dockerized version is comprised of three main steps:
+Creating a backup of the Windows-based AIR Console that creates an ABF file (AIR Backup File)
+Restoring the new instance using the ABF file created in the previous step
+Changing the Console Address values with the new instance address
+Once you complete all these steps, endpoint agents will unregister from the old console automatically and register to the new console on their next connection.
+Migration Process
+Before you start
+Make sure you have installed dockerized version of Binalyze AIR on a new machine.
+See  for detailed instructions.
+1.  Backup the old instance that runs v1.7.61:
+Login to AIR Console using a Global Admin Account
+Navigate to the Backup management section by clicking the   button and selecting “Backup History” from the drop-down list
+Get backup of the system by clicking the “Backup Now” button on the top right corner:
+Note: This process may take a while depending on the size of the database.
+Download the backup file by clicking the  button under the "Actions" column and click Download from the drop-down list
+This will download a zip file with ABF extension (AIR Backup File)
+2.  Restore the new instance using the backup file:
+Copy the ".abf" file to the newly installed Binalyze AIR server with a preferred file transfer method (i.e., SSH, SCP, WinSCP).
+Move ".abf" file to docker container using the following command:
+docker cp <path_to_.abf_file> binalyze-air_app_1:/air.backup
+Run AIR-CLI utility by executing the following command:
+docker exec -ti binalyze-air_app_1 /air-cli
+Select the "Restore using a backup file" option.
+Select your file type (.abf)
+If you have changed the default path "/air.backup" in step 2.b,  provide the new path. Otherwise, leave it as default.
+If you have changed the connection string during installation, provide the connection string. Otherwise, leave it as default.
+If the database name on the backup file is not left as default, provide the database name. Otherwise, leave it as default.
+If you have changed the database name during installation, provide the database name. Otherwise, leave it as default.
+Stop & Start docker container using following commands:
+cd /opt/binalyze-air && docker-compose -p binalyze-air down -v && docker-compose -p binalyze-air up -d
+3.  Changing the Console Address values with the new instance address
+Login to the NEW console instance
+Navigate to the Connection settings by clicking the   button and selecting Settings from the drop-down list and click Connection on the left menu.
+Enter the address of the new instance into the "Console Address" field and click the "Verify and Save" button. 
+This will override the Console Address value that comes from the old instance backup.
+4.  Redirecting the endpoints from the old system to the new one
+Login to the OLD console instance
+Navigate to the Connection settings by clicking the   button and selecting Settings from the drop-down list and click Connection on the left menu.
+Enter the address of the new instance into the "Console Address" field and click the "Verify and Save" button.
+Once verification completes, the old instance will command the endpoint agents to connect to the new instance on their next connection. This in turn will unregister the endpoint from the old instance and register it to the new instance. 
+IMPORTANT NOTE
+Online endpoints will immediately register to the new instance while offline endpoints will perform this action as soon as they become online.
+For this reason, please do not turn off the old AIR Console instance until all endpoint agents unregister themselves from the old console instance and register to the new one. 

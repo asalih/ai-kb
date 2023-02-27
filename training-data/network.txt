@@ -1,0 +1,8 @@
+Network
+How do endpoints communicate with console?
+Communication between endpoints and console is made through the ports listed below:
+HTTPS (443) is the default port agents use for retrieving their tasks from the console,
+NATS (4222) (optional) is used for pushing tasks to endpoints in real-time. In case this port is not allowed in your environment, AIR uses HTTP(S) polling as its default task retrieval mechanism. 
+Notes on Firewall Rules
+Console installer automatically adds inbound allow rules for the above ports to Windows Firewall. 
+On the other hand, endpoint installer doesn't set any firewall exclusions and it is your responsibility to make sure enterprise firewall policies allow endpoints to access console over these ports.

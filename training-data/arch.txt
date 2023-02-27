@@ -1,0 +1,13 @@
+Architecture
+A brief overview of system architecture
+Components
+Binalyze AIR is an on-premise client-server solution that allows you to remotely perform a variety of tasks on endpoints such as collecting forensic evidence and performing triage with YARA. 
+1. Management Console
+Management Console is a web-based application that can be viewed from any device with an up-to-date browser.
+2. Endpoint Agents
+Endpoints connect to the management console via a light-weight "passive" agent that can be deployed manually or via mechanisms such as SCCM. 
+2.1. Passive Agent Explained
+As you might have already guessed from the term "passive agent", AIR agents:
+DO NOT scan anything on the endpoint which may cause slowdowns (e.g. your Antivirus),
+DO NOT block anything on the endpoint which may cause false-positives (e.g. your DLP),
+DO NOT create any alerts which may cause "alert-fatigue".

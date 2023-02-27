@@ -1,0 +1,27 @@
+Terminology
+A brief overview of AIR terminology
+Console 
+Web-based management interface which lets you manage your endpoints and assign tasks.
+Endpoint
+Devices (desktop/laptop/server/workstation) in your environment which could be either one of two states:
+Managed: Endpoint agent is successfully deployed to the device and ready to perform tasks,
+Unmanaged: Device is discovered by enumerating Active Directory but does not have the AIR Agent deployed.
+The installation package required to deploy endpoints can be downloaded either from the dashboard by clicking the green “Download Endpoint Installer” button or from the Endpoints page by clicking the green ‘New +’ action button. Endpoint installer is a zero-configuration package which contains console address already embedded into it. You can deploy the package either manually or SCCM. 
+Endpoint Issue
+Managed endpoints could have one or more of the issues listed below:
+Outdated: The agent version on the endpoint is outdated and requires an update. The endpoint agent will be automatically upgraded to the latest version as soon as it connects to the console. 
+Unreachable: Endpoint has not connected to console for more than 30 days. 
+Task
+Operations that are assigned to the endpoints by console either manually or automatically via a trigger. 
+Tasks could be either:
+Manual: Assigned manually by users,
+Scheduled: Created by users to start in the future. Scheduled tasks could either be one-time or recurring (daily/weekly/monthly).
+Triggered: Assigned to endpoints as a response to a trigger request which is sent by a SIEM/SOAR/EDR solution. 
+Trigger
+RESTful URLs that could be used in SIEM/SOAR post actions to automate evidence acquisition as soon as an alert is generated for the endpoint in question.
+Triage
+Searching for pieces of evidence such as a file hash, process, malicious domain at scale. AIR  provides you with out-of-box examples (YARA) for making it easier to start sweeping your environment.
+Acquisition Profile
+A group of evidence types, application artifacts, and custom content items. There are acquisition profiles provided out-of-box but you can also create additional ones by visiting the "Acquisition" page. 
+Evidence Repository
+The remote location for saving collected evidence. An example could be a password-protected network share. 
