@@ -61,3 +61,4 @@ while True:
     )
 
     print(response.choices[0].text.lstrip())
+    print("\n")
