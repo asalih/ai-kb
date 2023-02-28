@@ -1,5 +1,5 @@
 # AI Knowledge Base
-Acquire acknowledgment with asking questions based on knowledge base.
+Acquire information with asking questions using gpt, answers will be based on the embedded knowledge base.
 
 ## Install
 ```
