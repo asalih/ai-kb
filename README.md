@@ -17,4 +17,4 @@ To run knowledge_base.py you need to provide an API Key from openapi.
 API_KEY=<api key> python knowledge_base.py
 ``` 
 
-![alt example](https://github.com/asalih/ai-query/blob/main/img/example.png?raw=true)
+![alt example](https://github.com/asalih/ai-kb/blob/main/img/example.png?raw=true)
